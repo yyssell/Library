@@ -1,0 +1,71 @@
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.profileCard {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  padding: 40px;
+  border-radius: 15px;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  color: #ff6b6b;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.email {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+.info {
+  margin-top: 20px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.info p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+  color: #fff;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #555;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.error {
+  font-size: 1.3rem;
+  color: #e63946;
+  text-align: center;
+  margin-top: 50px;
+}

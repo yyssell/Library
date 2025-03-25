@@ -1,0 +1,56 @@
+/* Header.module.css */
+.header {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #333;
+  margin-right: 1rem;
+}
+
+.navLink:hover {
+  color: #ff6b6b;
+}
+
+.btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin: 5px;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn:hover, .btn.active {
+  background: #e63946;
+  transform: scale(1.1);
+}
+
+.btnOutline {
+  background: transparent;
+  border: 2px solid #ff6b6b;
+  color: #ff6b6b;
+}
+
+.btnOutline:hover {
+  background: #ff6b6b;
+  color: white;
+}
