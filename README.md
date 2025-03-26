@@ -1,11 +1,6 @@
 # Bakery_React.js_PostgreSQL
 Сайт булочной написанный на React.js с подключением БД PostgreSQL
 
-## Требования
-- PostgreSQL
-- Node.js (v18+)
-- Git
-
 ---
 
 ### 1. Установка PostgreSQL
