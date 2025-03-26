@@ -1,30 +1,130 @@
-# Bakery_Reacrt.js_PostgreSQL
-Сайт булочной написанный на React.js с подключением бд PostgreSQL
+# Bakery_React.js_PostgreSQL
+Сайт булочной написанный на React.js с подключением БД PostgreSQL
 
-### Что что всем этим добром делать?
-1. Прописать **_npm install_** в каждой папке
-2. Создать базу данных PostgreSQL, заполнить ее скриптами в [PostgreSQL_data](bakery-backend%2FPostgreSQL_data)
-3. В [Api.js](bakery-app%2Fsrc%2Fcomponents%2Fmodules%2FApi.js) и [.env](bakery-backend%2F.env) фронта и бэка написать адрес сервера, данные для подключения к бд
-4. Разрешить маршрутизацию по портам 
+## Требования
+- PostgreSQL
+- Node.js (v18+)
+- Git
 
-#### Linux
+---
 
-1. **Открытие порта с помощью iptables:**
+### 1. Установка PostgreSQL
+#### Для Linux:
+```bash
+# Установка PostgreSQL
+sudo apt update && sudo apt install postgresql postgresql-contrib
 
-   Откройте терминал и выполните следующие команды:
+# Смена пароля пользователя postgres (установить 1234)
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '1234';" 
 
-   ```bash
-   sudo iptables -A INPUT -p tcp --dport 5173 -j ACCEPT
-   sudo iptables-save
-   ```
+# Создание базы данных "bakery"
+sudo -u postgres createdb bakery
+```
 
-2. **Открытие порта с помощью ufw (Uncomplicated Firewall):**
+#### Для Windows:
+- Скачайте установщик с [официального сайта](https://www.postgresql.org/download/)
+- Укажите пароль `1234` для пользователя `postgres` во время установки 
 
-   Если вы используете ufw, выполните следующие команды:
+---
 
-   ```bash
-   sudo ufw allow 5173/tcp
-   sudo ufw reload
-   ```
-   
-5. Прописать **_npm run dev_** в каждой папке
+### 2. Заполнение базы данных
+```bash
+# Перейдите в папку с SQL-скриптом
+cd bakery-backend/PostgreSQL_data
+
+# Импорт данных
+psql -U postgres -d bakery -f bakery_data.sql
+```
+
+---
+
+### 3. Установка Node.js
+```bash
+# Установка Node.js (Linux)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+node -v
+npm -v 
+```
+
+---
+
+### 4. Настройка проекта
+#### В backend-проекте:
+```bash
+# Установка зависимостей
+cd bakery-backend
+npm install
+
+# Настройка .env
+cp .env.example .env
+```
+В файле `.env` укажите:
+```env
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=bakery
+DB_PASSWORD=1234
+DB_PORT=5432
+
+JWT_SECRET=zRKIWr7z2uoKrBtUJ2LFceOB-dslR9ZTzHjNghIo5ZY
+
+SERVER_IP=http://localhost
+SERVER_PORT=5000
+```
+
+#### В frontend-проекте:
+```bash
+cd bakery-app
+npm install
+
+# Настройка Api.js
+# В файле src/components/modules/Api.js укажите:
+const API_URL = 'http://localhost:5000'
+```
+
+---
+
+### 5. Настройка брандмауэра
+```bash
+# Для Linux (открытие портов)
+sudo ufw allow 5432/tcp  # PostgreSQL
+sudo ufw allow 3000/tcp  # React
+sudo ufw allow 5000/tcp  # Express
+
+# Для Windows
+# Включите порты через "Брандмауэр Windows" в Панели управления
+```
+
+---
+
+### 6. Запуск проекта
+#### В backend-проекте:
+```bash
+cd bakery-backend
+npm run dev
+```
+
+#### В frontend-проекте:
+```bash
+cd bakery-app
+npm start
+```
+
+---
+
+### Структура проекта
+```
+.
+├── bakery-app/          # React-фронтенд
+│   ├── public/
+│   ├── src/
+│   └── package.json
+└── bakery-backend/      # Express-бэкенд
+    ├── PostgreSQL_data/ # SQL-скрипты
+    ├── .env
+    └── server.js
+```
+
+---
