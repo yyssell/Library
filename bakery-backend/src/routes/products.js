@@ -12,7 +12,8 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-const port = process.env.PORT || 5000;
+const server_ip = process.env.SERVER_IP || `http://localhost`;
+const port = process.env.SERVER_PORT || 5000;
 
 router.get('/', async (req, res) => {
   try {
@@ -22,13 +23,13 @@ router.get('/', async (req, res) => {
       if (!product.image_path) {
         return {
           ...product,
-          image_url: `http://localhost:${port}/images/${product.category_name}/stock.jpg`
+          image_url: `${server_ip}:${port}/images/${product.category_name}/stock.jpg`
         };
       }
 
       return {
         ...product,
-        image_url: `http://localhost:${port}/images/${product.category_name}/${product.image_path}`
+        image_url: `${server_ip}:${port}/images/${product.category_name}/${product.image_path}`
       };
     });
 
@@ -51,8 +52,8 @@ router.get('/:id', async (req, res) => {
     const product = {
       ...rows[0],
       image_url: rows[0].image_path
-        ? `http://localhost:${port}/images/${rows[0].category_name}/${rows[0].image_path}`
-        : `http://localhost:${port}/images/${rows[0].category_name}/stock.jpg`
+        ? `${server_ip}:${port}/images/${rows[0].category_name}/${rows[0].image_path}`
+        : `${server_ip}:${port}/images/${rows[0].category_name}/stock.jpg`
     };
 
     res.status(200).json(product);

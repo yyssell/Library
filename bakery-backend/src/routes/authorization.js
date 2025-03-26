@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
-const authMiddleware = require("../authMiddleware");
+const authMiddleware = require("../add_ons/authMiddleware");
 
 const router = express.Router();
 const pool = new Pool({
