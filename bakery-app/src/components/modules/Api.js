@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000";
+const server_ip = `http://localhost`; //process.env.SERVER_IP ||
+const port = 5000; //process.env.SERVER_PORT ||
+
+const BASE_URL = `${server_ip}:${port}`;
 
 export const getProducts = async () => {
     try {

@@ -1,7 +1,16 @@
 const request = require('supertest');
-const app = require('../../server'); // Импортируйте ваше Express-приложение
+const app = require('../../server');
+const server = require('../../server').server;
 
 describe('API Endpoints', () => {
+  afterAll((done) => {
+    if (server) {
+      server.close(done);
+    } else {
+      done();
+    }
+  });
+
   describe('GET /categories', () => {
     it('should return all product categories', async () => {
       const res = await request(app).get('/categories/');
@@ -47,4 +56,5 @@ describe('API Endpoints', () => {
       expect(res.body.image_url).toBe(expectedUrl);
     });
   });
+
 });
