@@ -33,9 +33,9 @@ CREATE TABLE Products (
     product_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(500),
-    fats NUMERIC(5,2),
-    carbohydrates NUMERIC(5,2),
     category_id INT REFERENCES Categories(category_id),
+    unit_price NUMERIC(10,2) NOT NULL CHECK (unit_price > 0),
+    rental_price NUMERIC(10,2) NOT NULL CHECK (unit_price > 0),
     stock_quantity INT NOT NULL CHECK (stock_quantity >= 0),
     image_path VARCHAR(255)
 );
