@@ -40,6 +40,12 @@ CREATE TABLE Products (
     image_path VARCHAR(255)
 );
 
+-- Справочник статусов заказов
+CREATE TABLE Order_Statuses (
+    status_id SERIAL PRIMARY KEY,
+    status_name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT
+);
 
 -- Заказы
 CREATE TABLE Orders (
