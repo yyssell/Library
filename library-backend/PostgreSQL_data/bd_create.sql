@@ -52,6 +52,7 @@ CREATE TABLE Orders (
     order_id SERIAL PRIMARY KEY,
     customer_id INT REFERENCES Customers(customer_id),
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status_id INT REFERENCES Order_Statuses(status_id) NOT NULL,
     pickup_time TIMESTAMP NOT NULL
 );
 
