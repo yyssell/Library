@@ -32,22 +32,49 @@ const ProfilePage = () => {
   if (!user) return <div className={styles.loading}>Загрузка...</div>;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.profileCard}>
-        <div className={styles.avatar}>
-          <span>{user.first_name[0]}{user.last_name[0]}</span>
-        </div>
-        <h1 className={styles.name}>
-          {user.first_name} {user.last_name}
-        </h1>
-        <p className={styles.email}>{user.email}</p>
-        <div className={styles.info}>
-          <p><strong>ID:</strong> {user.customer_id}</p>
-          <p><strong>Телефон:</strong> {user.phone}</p>
-          <p><strong>Роли:</strong> {user.roles.join(", ")}</p>
-          <p><strong>Дата регистрации:</strong> {new Date(user.dateregistration).toLocaleDateString()}</p>
-        </div>
-      </div>
+    <div className={styles.profileContainer}>
+      {error && <div className={styles.error}>{error}</div>}
+      {!user ? (
+        <div className={styles.loading}>Загрузка...</div>
+      ) : (
+        <>
+          <div className={styles.profileHeader}>
+            <h2 className={styles.profileTitle}>Мой профиль</h2>
+          </div>
+
+          <div className={styles.userInfo}>
+            <div className={styles.infoSection}>
+              <span className={styles.infoLabel}>ФИО</span>
+              <span className={styles.infoValue}>
+                {user.last_name} {user.first_name} {user.middle_name}
+              </span>
+            </div>
+
+            <div className={styles.infoSection}>
+              <span className={styles.infoLabel}>Телефон</span>
+              <span className={styles.infoValue}>{user.phone}</span>
+            </div>
+
+            <div className={styles.infoSection}>
+              <span className={styles.infoLabel}>Email</span>
+              <span className={styles.infoValue}>{user.email}</span>
+            </div>
+
+            <div className={styles.infoSection}>
+              <span className={styles.infoLabel}>Роли</span>
+              <div className={styles.rolesContainer}>
+                {user.roles.map(role => (
+                  <span key={role} className={styles.roleChip}>{role}</span>
+                ))}
+              </div>
+            </div>
+
+            <span className={styles.registrationDate}>
+              Зарегистрирован: {new Date(user.dateregistration).toLocaleDateString()}
+            </span>
+          </div>
+        </>
+      )}
     </div>
   );
 };

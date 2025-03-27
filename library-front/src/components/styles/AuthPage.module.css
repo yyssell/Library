@@ -1,34 +1,65 @@
 .authContainer {
   max-width: 400px;
-  margin: 100px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  margin: 60px auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .error {
-  color: red;
-  margin: 10px 0;
+  color: #ff4444;
+  background: #ffe6e6;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 500;
 }
 
 .authInput {
   width: 100%;
-  padding: 8px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px;
+  margin: 1rem 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.authInput:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 .authButton {
   width: 100%;
-  padding: 10px;
-  background: #ff6b6b;
+  padding: 12px;
+  background: #4b52f8;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .authButton:hover {
-  background: #e63946;
+  transform: translateY(-2px);
+}
+
+.authButton:active {
+  transform: translateY(0);
+}
+
+a {
+  color: #4b52f8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
 }

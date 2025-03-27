@@ -22,35 +22,40 @@
   margin-right: 1rem;
 }
 
+.navImg {
+  max-width: 350px;
+  max-height: 100px;
+}
+
 .navLink:hover {
-  color: #ff6b6b;
+  color: #4b52f8;
 }
 
 .btn {
-  background: #ff6b6b;
+  background-color: #747bff;
   color: white;
   border: none;
   padding: 12px 20px;
   margin: 5px;
   font-size: 1rem;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
 }
 
 .btn:hover, .btn.active {
-  background: #e63946;
+  background: #4a52fc;
   transform: scale(1.1);
 }
 
 .btnOutline {
   background: transparent;
-  border: 2px solid #ff6b6b;
-  color: #ff6b6b;
+  border: 2px solid #747bff;
+  color: #747bff;
 }
 
 .btnOutline:hover {
-  background: #ff6b6b;
+  background: #4a52fc;
   color: white;
 }

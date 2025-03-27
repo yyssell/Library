@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
-const authMiddleware = require("../add_ons/authMiddleware");
+const authMiddleware = require("./modules/authMiddleware");
 
 const router = express.Router();
 const pool = new Pool({
@@ -69,7 +69,7 @@ router.post('/register',
       // Назначение роли по умолчанию
       const role = await pool.query(
         'SELECT role_id FROM Roles WHERE role_name = $1',
-        ['client']
+        ['Читатель']
       );
 
       await pool.query(
@@ -130,53 +130,6 @@ router.post('/login',
       );
 
       res.json({ token });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Server error');
-    }
-});
-
-
-router.put('/change-password', authMiddleware,
-  [
-    body('oldPassword').notEmpty(),
-    body('newPassword').isLength({ min: 6 })
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { userId } = req.user;
-    const { oldPassword, newPassword } = req.body;
-
-    try {
-      const user = await pool.query(
-        'SELECT password_hash FROM Customers WHERE customer_id = $1',
-        [userId]
-      );
-
-      if (user.rows.length === 0) {
-        return res.status(404).json({ error: 'Пользователь не найден' });
-      }
-
-      const validPassword = await bcrypt.compare(
-        oldPassword,
-        user.rows[0].password_hash
-      );
-
-      if (!validPassword) {
-        return res.status(401).json({ error: 'Неверный старый пароль' });
-      }
-
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      await pool.query(
-        'UPDATE Customers SET password_hash = $1 WHERE customer_id = $2',
-        [hashedPassword, userId]
-      );
-
-      res.json({ message: 'Пароль успешно изменен' });
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');

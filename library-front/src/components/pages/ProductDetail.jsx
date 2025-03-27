@@ -1,18 +1,19 @@
 // ProductDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProductById } from "../modules/Api.js";
+import { getBooksById } from "../modules/Api.js";
 import styles from "../styles/ProductDetail.module.css";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
+  const [daysCount, setDaysCount] = useState(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await getProductById(id);
+        const response = await getBooksById(id);
         setProduct(response.data);
         setError(null);
       } catch (err) {
@@ -25,56 +26,81 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+
   if (error) return <div className={styles.error}>{error}</div>;
   if (!product) return <div className={styles.loading}>Загрузка...</div>;
 
+  const incrementDays = () => setDaysCount(prev => prev + 1);
+  const decrementDays = () => setDaysCount(prev => (prev > 1 ? prev - 1 : prev));
+
+  const totalRentalCost = (product.rental_price * daysCount).toFixed(2)
+
   return (
-    <div className={styles.container}>
-      <div className={styles.hero}>
+    <div className={styles.productContainer}>
+      <div className={styles.imageContainer}>
         <img
           src={product.image_url}
           alt={product.name}
-          className={styles.heroImage}
-          onError={(e) => {
-            e.target.src =
-              "https://via.placeholder.com/1200x600?text=No+Image";
-          }}
+          className={styles.productImage}
+          onError={(e) => (e.target.src = "/placeholder.jpg")}
         />
-        <div className={styles.heroOverlay}>
-          <h1 className={styles.heroTitle}>{product.name}</h1>
-        </div>
       </div>
-
-      <div className={styles.detailsCard}>
-        <p className={styles.description}>{product.description}</p>
-        <div className={styles.infoGrid}>
-          <div className={styles.infoItem}>
-            <h3 className={styles.infoTitle}>Состав</h3>
-            <p className={styles.infoValue}>
-              {product.composition || "Не указано"}
-            </p>
+      <div className={styles.detailsContainer}>
+        <h1 className={styles.productName}>{product.name}</h1>
+        <p className={styles.productAuthor}>{product.description}</p>
+        <div className={styles.metaInfo}>
+          <span className={styles.categoryBadge}>{product.category_name}</span>
+          <span className={styles.stockStatus}>
+            В наличии: {product.stock_quantity} шт.
+          </span>
+        </div>
+        <div className={styles.priceSection}>
+          <div className={styles.priceItem}>
+            <span className={styles.priceLabel}>Залоговая стоимость:</span>
+            <span className={styles.priceValue}>{product.unit_price} ₽</span>
           </div>
-          <div className={styles.infoItem}>
-            <h3 className={styles.infoTitle}>Вес</h3>
-            <p className={styles.infoValue}>
-              {product.weight ? `${product.weight} г` : "Не указано"}
-            </p>
-          </div>
-          <div className={styles.infoItem}>
-            <h3 className={styles.infoTitle}>Пищевая ценность</h3>
-            <ul className={styles.nutritionList}>
-              <li>Калории: {product.calories || "N/A"} ккал</li>
-              <li>Белки: {product.proteins || "N/A"} г</li>
-              <li>Жиры: {product.fats || "N/A"} г</li>
-              <li>Углеводы: {product.carbohydrates || "N/A"} г</li>
-            </ul>
+          <div className={styles.priceItem}>
+            <span className={styles.priceLabel}>Аренда:</span>
+            <span className={styles.priceValue}>{product.rental_price} ₽/день</span>
           </div>
         </div>
-      </div>
 
-      <div className={styles.actionBar}>
-        <span className={styles.price}>{product.unit_price} ₽</span>
-        <button className={styles.addToCart}>В корзину</button>
+        <div className={styles.rentBlock}>
+          <span className={styles.priceLabel}>Расчет стоимости аренды:</span>
+          <div className={styles.rentalControls}>
+            <div className={styles.daysControl}>
+              <button
+                  className={styles.controlButton}
+                  onClick={decrementDays}
+                  disabled={daysCount === 1}
+              >
+                -
+              </button>
+              <span className={styles.daysCount}>{daysCount} дней</span>
+              <button
+                  className={styles.controlButton}
+                  onClick={incrementDays}
+              >
+                +
+              </button>
+            </div>
+
+            <div className={styles.totalBlock}>
+        <span className={styles.totalCost}>
+          Итого: {totalRentalCost} ₽
+        </span>
+              <button className={styles.cart_button}>
+                <img src={'../../../shopping-cart.png'}/>
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.cartButtonContainer}>
+
+          </div>
+        </div>
+
+
       </div>
     </div>
   );

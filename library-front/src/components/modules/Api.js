@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const server_ip = `http://5.181.187.191`; //process.env.SERVER_IP ||
+const server_ip = `http://localhost`; //process.env.SERVER_IP ||
 const port = 8888; //process.env.SERVER_PORT ||
 
 const BASE_URL = `${server_ip}:${port}`;
 
-export const getProducts = async () => {
+export const getBooks = async () => {
     try {
-        const response = await axios.get(`${BASE_URL}/products`);
+        const response = await axios.get(`${BASE_URL}/books`);
         return response;
     }
     catch (error) {
@@ -15,9 +15,9 @@ export const getProducts = async () => {
     }
 };
 
-export const getProductById = async (id) => {
+export const getBooksById = async (id) => {
     try {
-        const response = await axios.get(`${BASE_URL}/products/${id}`);
+        const response = await axios.get(`${BASE_URL}/books/${id}`);
         return response;
     }
     catch (error) {

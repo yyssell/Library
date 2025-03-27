@@ -86,6 +86,7 @@ const RegisterPage = () => {
         />
         <button type="submit" className={styles.authButton}>Зарегистрироваться</button>
       </form>
+      <p></p>
       <p>
         Есть аккаунт? <Link to="/login">Войти</Link>
       </p>

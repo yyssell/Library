@@ -1,6 +1,5 @@
 const express = require('express');
 const { Pool } = require('pg');
-const { getCategoriesQuery } = require('./queries');
 
 const router = express.Router();
 const pool = new Pool({
@@ -13,7 +12,9 @@ const pool = new Pool({
 
 router.get('/', async (req, res) => {
   try {
-    const { rows } = await pool.query(getCategoriesQuery);
+    const { rows } = await pool.query(`
+  SELECT * FROM Categories
+`);
     res.status(200).json(rows);
   } catch (err) {
     console.error(err);

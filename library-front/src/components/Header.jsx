@@ -16,13 +16,13 @@ const Header = () => {
     <header className={styles.header}>
       <div className={`container ${styles.container}`}>
         <Link to="/" className={`text-decoration-none text-dark fs-3 fw-bold ${styles.navLink}`}>
-          Вкусная Булочка
+          <img className={styles.navImg} src={'../../logo.jpg'}/>
         </Link>
 
         <nav className={styles.nav}>
-          <Link to="/catalog" className={styles.navLink}>Каталог</Link>
-          <Link to="/about" className={styles.navLink}>О нас</Link>
-          <Link to="/contacts" className={styles.navLink}>Контакты</Link>
+          {/*<Link to="/catalog" className={styles.navLink}>Каталог</Link>*/}
+          {/*<Link to="/about" className={styles.navLink}>О нас</Link>*/}
+          {/*<Link to="/contacts" className={styles.navLink}>Контакты</Link>*/}
         </nav>
         <div>
           {user ? (
@@ -30,6 +30,7 @@ const Header = () => {
                 <Link to="/profile" className={`${styles.btn} ${styles.btnOutline}`}>
                   Профиль
                 </Link>
+
                 <Link to="/" className={styles.btn} onClick={handleLogout}>
                   Выйти
                 </Link>

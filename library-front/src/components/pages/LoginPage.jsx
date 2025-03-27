@@ -49,6 +49,7 @@ const LoginPage = () => {
         />
         <button type="submit" className={styles.authButton}>Войти</button>
       </form>
+      <p></p>
       <p>
         Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
       </p>
