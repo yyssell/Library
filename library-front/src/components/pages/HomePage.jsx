@@ -146,33 +146,42 @@ const handleExport = () => {
           ))}
         </div>
 
+  
+<div className={styles.sortPanel}>
+  <button
+    onClick={handleExport}
+    className={`${styles.categoryButton} ${styles.exportButton}`}
+  >
+    Скачать в XLSX
+  </button>
 
+  <div className={styles.sortControls}>
+    <select
+      value={sortConfig.key || ''}
+      onChange={(e) => handleSort(e.target.value)}
+      className={styles.sortSelect}
+    >
+      <option value="">Сортировать по</option>
+      <option value="name">Названию</option>
+      <option value="unit_price">Цене</option>
+      <option value="stock_quantity">Наличию</option>
+    </select>
+    <span
+      className={styles.sortDirection}
+      onClick={() => handleSort(sortConfig.key)}
+    >
+      {sortConfig.direction === 'asc' ? '↑' : '↓'}
+    </span>
+ 	 </div>
+	</div>
+
+
+
+
+	</div>
 	
 
-        <div className={styles.sortPanel}>
-	<button
-            onClick={handleExport}
-            className={`${styles.categoryButton} ${styles.exportButton}`}
-          >Скачать в XLSX</button>
-
-          <select
-            value={sortConfig.key || ''}
-            onChange={(e) => handleSort(e.target.value)}
-            className={styles.sortSelect}
-          >
-            <option value="">Сортировать по</option>
-            <option value="name">Названию</option>
-            <option value="unit_price">Цене</option>
-            <option value="stock_quantity">Наличию</option>
-          </select>
-          <span
-            className={styles.sortDirection}
-            onClick={() => handleSort(sortConfig.key)}
-          >
-            {sortConfig.direction === 'asc' ? '▲' : '▼'}
-          </span>
-        </div>
-      </div>
+      
 
       {/* Список книг */}
       <div className={styles.productGrid}>
@@ -206,51 +215,3 @@ const handleExport = () => {
 };
 
 export default HomePage;
-<div className={styles.sortPanel}>
-        <button
-            onClick={handleExport}
-            className={`${styles.categoryButton} ${styles.exportButton}`}
-          >Скачать в XLSX</button>
-
-          <select
-            value={sortConfig.key || ''}
-            onChange={(e) => handleSort(e.target.value)}
-            className={styles.sortSelect}
-          >
-            <option value="">Сортировать по</option>
-            <option value="name">Названию</option>
-            <option value="unit_price">Цене</option>
-            <option value="stock_quantity">Наличию</option>
-          </select>
-          <span
-            className={styles.sortDirection}
-            onClick={() => handleSort(sortConfig.key)}
-          >
-            {sortConfig.direction === 'asc' ? '▲' : '▼'}
-          </span>
-        </div>
-      </div>
-        <div className={styles.sortPanel}>
-	<button
-            onClick={handleExport}
-            className={`${styles.categoryButton} ${styles.exportButton}`}
-          >Скачать в XLSX</button>
-
-          <select
-            value={sortConfig.key || ''}
-            onChange={(e) => handleSort(e.target.value)}
-            className={styles.sortSelect}
-          >
-            <option value="">Сортировать по</option>
-            <option value="name">Названию</option>
-            <option value="unit_price">Цене</option>
-            <option value="stock_quantity">Наличию</option>
-          </select>
-          <span
-            className={styles.sortDirection}
-            onClick={() => handleSort(sortConfig.key)}
-          >
-            {sortConfig.direction === 'asc' ? '▲' : '▼'}
-          </span>
-        </div>
-      </div>
