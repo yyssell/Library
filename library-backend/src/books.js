@@ -58,7 +58,7 @@ router.get('/:id', async (req, res) => {
 `, [id]);
 
     if (rows.length === 0) {
-      return res.status(404).json({ error: 'Продукт не найден' });
+      return res.status(404).json({ error: 'Книга не найдена' });
     }
 
     const product = {

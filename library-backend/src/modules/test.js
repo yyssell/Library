@@ -12,48 +12,73 @@ describe('API Endpoints', () => {
   });
 
   describe('GET /categories', () => {
-    it('should return all product categories', async () => {
+    it('Должен вернуть все жанры книг', async () => {
       const res = await request(app).get('/categories/');
 
       expect(res.statusCode).toEqual(200);
       expect(res.body).toEqual([
-        { category_id: 1, category_name: 'Хлеб' },
-        { category_id: 2, category_name: 'Торты' },
-        { category_id: 3, category_name: 'Пирожные' },
-        { category_id: 4, category_name: 'Выпечка' },
-        { category_id: 5, category_name: 'Пироги' }
-      ]);
+  {
+    "category_id": 1,
+    "category_name": "Роман"
+  },
+  {
+    "category_id": 2,
+    "category_name": "Фэнтези"
+  },
+  {
+    "category_id": 3,
+    "category_name": "Антиутопия"
+  },
+  {
+    "category_id": 4,
+    "category_name": "Приключения"
+  },
+  {
+    "category_id": 5,
+    "category_name": "Сказка"
+  },
+  {
+    "category_id": 6,
+    "category_name": "Магический реализм"
+  },
+  {
+    "category_id": 7,
+    "category_name": "Научная литература"
+  },
+  {
+    "category_id": 8,
+    "category_name": "История"
+  },
+  {
+    "category_id": 9,
+    "category_name": "Детектив"
+  },
+  {
+    "category_id": 10,
+    "category_name": "Поэзия"
+  }
+]);
     });
   });
 
-  describe('GET /products/:id', () => {
-    it('should return product details for valid ID', async () => {
-      const res = await request(app).get('/products/1/');
+  describe('GET /books/:id', () => {
+    it('Должен вернуть книгу по ее id', async () => {
+      const res = await request(app).get('/books/1/');
 
       expect(res.statusCode).toEqual(200);
       expect(res.body).toMatchObject({
         product_id: 1,
-        name: 'Золотой Батон',
-        category_name: 'Хлеб',
-        image_url: expect.stringContaining('/images/Хлеб/golden_bread.jpg')
+        name: 'Война и мир',
+        category_name: 'Роман',
+        image_url: expect.stringContaining('/images/Роман/voina_i_mir.jpg')
       });
     });
 
-    it('should return 404 for non-existent product', async () => {
-      const res = await request(app).get('/products/777');
+    it('При указании id с несуществующей книгой должен вернуть ошибку', async () => {
+      const res = await request(app).get('/books/1000');
 
       expect(res.statusCode).toEqual(404);
-      expect(res.body).toEqual({ error: 'Продукт не найден' });
-    });
-
-    it('should have correct image URL structure', async () => {
-      const res = await request(app).get('/products/1');
-
-      const expectedUrl = `${process.env.SERVER_IP || 'http://localhost'}:${
-        process.env.SERVER_PORT || 5000
-      }/images/Хлеб/golden_bread.jpg`;
-
-      expect(res.body.image_url).toBe(expectedUrl);
+      expect(res.body).toEqual({ error: 'Книга не найдена' });
     });
   });
 

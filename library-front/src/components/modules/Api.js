@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const server_ip = `http://localhost`; //process.env.SERVER_IP ||
+const server_ip = `http://5.181.187.191`; //process.env.SERVER_IP ||
 const port = 8888; //process.env.SERVER_PORT ||
 
 const BASE_URL = `${server_ip}:${port}`;
