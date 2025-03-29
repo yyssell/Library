@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "../styles/HomePage.module.css";
 import * as XLSX from 'xlsx';
 import { getCategories, getBooks } from "../modules/Api.js";
-import { useAuth } from "../components/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const HomePage = () => {
   const [categories, setCategories] = useState([]);
