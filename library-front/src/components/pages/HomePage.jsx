@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "../styles/HomePage.module.css";
 import * as XLSX from 'xlsx';
 import { getCategories, getBooks } from "../modules/Api.js";
+import { useAuth } from "../components/AuthContext";
 
 const HomePage = () => {
   const [categories, setCategories] = useState([]);
@@ -12,7 +13,8 @@ const HomePage = () => {
   const [selectedCategories, setSelectedCategories] = useState([]); // Изменено на массив
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [loading, setLoading] = useState(true);
-
+  const { user } = useAuth();
+	
 const handleExport = () => {
       const ws = XLSX.utils.json_to_sheet(sortedProducts.map(product => ({
         Название: product.name,
@@ -148,12 +150,14 @@ const handleExport = () => {
 
   
 <div className={styles.sortPanel}>
-  <button
-    onClick={handleExport}
-    className={`${styles.categoryButton} ${styles.exportButton}`}
-  >
-    Скачать в XLSX
-  </button>
+  {user?.roles?.includes('Директор') && (
+          <button
+            onClick={handleExport}
+            className={`${styles.categoryButton} ${styles.exportButton}`}
+          >
+            Скачать в XLSX
+          </button>
+        )}
 
   <div className={styles.sortControls}>
     <select
