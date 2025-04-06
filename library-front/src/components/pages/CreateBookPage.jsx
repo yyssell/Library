@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createBook } from "../modules/Api.js";  // Импортируем createBook
+import { createBook } from "../modules/Api.js";  // Импортируем функцию createBook
 import styles from "../styles/CreateBookPage.module.css"; // Путь к стилям
 
 const CreateBookPage = ({ token }) => {
@@ -27,14 +27,16 @@ const CreateBookPage = ({ token }) => {
       rental_price,
       category_id,
       image_url,
-      image_path,
+      image_path
     };
 
     try {
-      await createBook(bookData, token);
-      navigate("/books");  // Перенаправляем пользователя на страницу списка книг
+      const response = await createBook(bookData, token);
+      if (response.message === 'Книга успешно создана') {
+        navigate("/books");  // Перенаправляем на страницу списка книг
+      }
     } catch (error) {
-      setError(error);  // Отображаем ошибку
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -92,10 +94,10 @@ const CreateBookPage = ({ token }) => {
             required
           >
             <option value="">Выберите категорию</option>
-            {/* Здесь можно динамически загрузить категории, если нужно */}
+            {/* Здесь можно динамически загрузить категории */}
             <option value="1">Категория 1</option>
             <option value="2">Категория 2</option>
-            {/* Пример: добавьте реальные категории из API */}
+            {/* Замените на реальные категории */}
           </select>
         </div>
 
