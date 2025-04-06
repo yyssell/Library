@@ -1,54 +1,106 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "../styles/HomePage.module.css";
-import { getBooks, deleteBook, updateBook, createBook } from "../modules/Api.js";
+import styles from "../styles/ManageBooksPage.module.css"; // можно переименовать, если нужно
+import * as XLSX from 'xlsx';
+import { getCategories, getBooks } from "../modules/Api.js";
 import { useAuth } from "../context/AuthContext";
 
-const ManageBooksPage = () => {
-  const { user } = useAuth();
-  const [books, setBooks] = useState([]);
+const ManageBookPage = () => {
+  const [categories, setCategories] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+
+  const handleExport = () => {
+    const ws = XLSX.utils.json_to_sheet(sortedProducts.map(product => ({
+      ID: product.product_id,
+      Название: product.name,
+      Описание: product.description,
+      Категория: product.category_name,
+      Цена: product.unit_price,
+      Аренда: product.rental_price,
+      Количество: product.stock_quantity,
+      Путь_к_изображению: product.image_path,
+      URL_изображения: product.image_url
+    })));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Товары");
+    XLSX.writeFile(wb, "товары.xlsx");
+  };
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getBooks();
-        setBooks(response.data);
+        const [categoriesRes, productsRes] = await Promise.all([
+          getCategories(),
+          getBooks(),
+        ]);
+
+        const formattedCategories = [
+          { id: null, name: "Все" },
+          ...categoriesRes.data.map((cat) => ({
+            id: cat.category_id,
+            name: cat.category_name,
+          })),
+        ];
+
+        setCategories(formattedCategories);
+        setAllProducts(productsRes.data);
       } catch (error) {
         console.error("Ошибка загрузки данных:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchBooks();
+
+    fetchData();
   }, []);
 
-  const filteredBooks = useMemo(() => {
-    if (!searchQuery) return books;
-    const query = searchQuery.toLowerCase();
-    return books.filter(book =>
-      book.title.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query)
-    );
-  }, [books, searchQuery]);
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategories(prev => {
+      if (categoryId === null) return [];
+      if (prev.includes(categoryId)) {
+        return prev.filter(id => id !== categoryId);
+      }
+      return [...prev, categoryId];
+    });
+  };
 
-  const sortedBooks = useMemo(() => {
-    if (!sortConfig.key) return filteredBooks;
-    return [...filteredBooks].sort((a, b) => {
-      if (['unit_price', 'stock_quantity'].includes(sortConfig.key)) {
+  const filteredProducts = useMemo(() => {
+    let result = allProducts;
+    if (selectedCategories.length > 0) {
+      result = result.filter(p => selectedCategories.includes(p.category_id));
+    }
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        (p.description && p.description.toLowerCase().includes(query))
+      );
+    }
+    return result;
+  }, [allProducts, selectedCategories, searchQuery]);
+
+  const sortedProducts = useMemo(() => {
+    let sortableProducts = [...filteredProducts];
+    if (!sortConfig.key) return sortableProducts;
+    sortableProducts.sort((a, b) => {
+      if (['unit_price', 'rental_price', 'stock_quantity', 'product_id'].includes(sortConfig.key)) {
         return sortConfig.direction === 'asc'
-          ? a[sortConfig.key] - b[sortConfig.key]
-          : b[sortConfig.key] - a[sortConfig.key];
+          ? parseFloat(a[sortConfig.key]) - parseFloat(b[sortConfig.key])
+          : parseFloat(b[sortConfig.key]) - parseFloat(a[sortConfig.key]);
       }
       const valA = a[sortConfig.key]?.toString().toLowerCase() || '';
       const valB = b[sortConfig.key]?.toString().toLowerCase() || '';
-      return sortConfig.direction === 'asc'
-        ? valA.localeCompare(valB)
-        : valB.localeCompare(valA);
+      if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
     });
-  }, [filteredBooks, sortConfig]);
+    return sortableProducts;
+  }, [filteredProducts, sortConfig]);
 
   const handleSort = (key) => {
     setSortConfig(prev => ({
@@ -56,83 +108,132 @@ const ManageBooksPage = () => {
       direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
     }));
   };
+  const handleDelete = (productId) => {
+  if (window.confirm("Вы уверены, что хотите удалить этот товар?")) {
+    setAllProducts(prev => prev.filter(p => p.product_id !== productId));
+    // TODO: Добавить API вызов для удаления на сервере
+  }
+};
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Удалить книгу?")) {
-      try {
-        await deleteBook(id, user.token);
-        setBooks(prev => prev.filter(book => book.product_id !== id));
-      } catch (error) {
-        console.error("Ошибка удаления:", error);
-      }
-    }
-  };
 
   return (
-      <div className={styles.container}>
-        <div className={styles.filters}>
-          <input
-              type="text"
-              placeholder="Поиск..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.searchInput}
-          />
-          <div className={styles.sortControls}>
-            <select
-                value={sortConfig.key || ''}
-                onChange={(e) => handleSort(e.target.value)}
-                className={styles.sortSelect}
-            >
-              <option value="">Сортировать по</option>
-              <option value="title">Названию</option>
-              <option value="author">Автору</option>
-              <option value="unit_price">Цене</option>
-              <option value="stock_quantity">Наличию</option>
-            </select>
-            <span
-                className={styles.sortDirection}
-                onClick={() => handleSort(sortConfig.key)}
-            >
-            {sortConfig.direction === 'asc' ? '↑' : '↓'}
-          </span>
-          </div>
+    <div className={styles.container}>
+      <div className={styles.filters}>
+        <input
+          type="text"
+          placeholder="Поиск..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.searchInput}
+        />
+        <div className={styles.categoryList}>
+          {categories.map(cat => (
+            <div key={cat.id} className={styles.categoryItem}>
+              <input
+                type="checkbox"
+                id={`cat-${cat.id}`}
+                checked={selectedCategories.includes(cat.id) || (cat.id === null && selectedCategories.length === 0)}
+                onChange={() => handleCategorySelect(cat.id)}
+                className={styles.checkbox}
+              />
+              <label htmlFor={`cat-${cat.id}`}>{cat.name}</label>
+            </div>
+          ))}
         </div>
 
-        <table className={styles.dataTable}>
+        <div className={styles.sortPanel}>
+          {user?.roles?.includes('Директор') && (
+              <div className={styles.buttonsContainer}>
+            <button
+              onClick={handleExport}
+              className={`${styles.categoryButton} ${styles.exportButton}`}
+            >
+              Скачать в XLSX
+            </button>
+              <Link
+                to="/books/create"
+                className={`${styles.categoryButton}`}
+                style={{ background: "#4b52f8", color: "white" }}
+              >
+                Создать новый элемент
+              </Link>
+              </div>
+          )}
+          <div className={styles.sortControls}>
+            <select
+              value={sortConfig.key || ''}
+              onChange={(e) => handleSort(e.target.value)}
+              className={styles.sortSelect}
+            >
+              <option value="">Сортировать по</option>
+              <option value="product_id">ID</option>
+              <option value="name">Названию</option>
+              <option value="unit_price">Цене</option>
+              <option value="rental_price">Аренде</option>
+              <option value="stock_quantity">Наличию</option>
+              <option value="category_name">Категории</option>
+            </select>
+            <span
+              className={styles.sortDirection}
+              onClick={() => handleSort(sortConfig.key)}
+            >
+              {sortConfig.direction === 'asc' ? '↑' : '↓'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.tableContainer}>
+        <table className={styles.productTable}>
           <thead>
           <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Автор</th>
-            <th>Категория</th>
-            <th>Цена продажи</th>
-            <th>Цена аренды</th>
-            <th>В наличии</th>
+            <th onClick={() => handleSort('product_id')}>ID</th>
+            <th>Изображение</th>
+            <th onClick={() => handleSort('name')}>Название</th>
+            <th>Описание</th>
+            <th onClick={() => handleSort('unit_price')}>Цена</th>
+            <th onClick={() => handleSort('rental_price')}>Аренда</th>
+            <th onClick={() => handleSort('stock_quantity')}>Количество</th>
+            <th onClick={() => handleSort('category_name')}>Категория</th>
+            <th>image_path</th>
+            <th>image_url</th>
             <th>Действия</th>
+            {/* Новый столбец */}
           </tr>
           </thead>
           <tbody>
-          {sortedBooks.map(book => (
-              <tr key={book.product_id}>
-                <td>{book.product_id}</td>
-                <td>{book.name}</td>
-                <td>{book.description}</td>
-                {/* В вашем примере здесь указан автор [[1]] */}
-                <td>{book.category_name}</td>
-                <td>{book.unit_price} ₽</td>
-                <td>{book.rental_price} ₽/день</td>
-                <td>{book.stock_quantity} шт.</td>
+          {sortedProducts.map(product => (
+              <tr key={product.product_id}>
+                <td>{product.product_id}</td>
                 <td>
-                  <button
-                      className={styles.editBtn}
-                      onClick={() => updateBook(book)}
+                  <img
+                      src={product.image_url}
+                      alt={product.name}
+                      style={{width: 50, height: 50, objectFit: "cover"}}
+                  />
+                </td>
+                <td>
+                  <Link to={`/books/${product.product_id}`} className={styles.link}>
+                    {product.name}
+                  </Link>
+                </td>
+                <td>{product.description}</td>
+                <td>{product.unit_price} ₽</td>
+                <td>{product.rental_price} ₽/день</td>
+                <td>{product.stock_quantity}</td>
+                <td>{product.category_name}</td>
+                <td>{product.image_path}</td>
+                <td>{product.image_url}</td>
+                <td>
+                  <Link
+                      to={`/edit/${product.product_id}`}
+                      className={`${styles.actionButton} ${styles.editButton}`}
                   >
                     Редактировать
-                  </button>
+                  </Link>
                   <button
-                      className={styles.deleteBtn}
-                      onClick={() => deleteBook(book.product_id)}
+                      onClick={() => handleDelete(product.product_id)}
+                      className={`${styles.actionButton} ${styles.deleteButton}`}
                   >
                     Удалить
                   </button>
@@ -140,9 +241,11 @@ const ManageBooksPage = () => {
               </tr>
           ))}
           </tbody>
+
         </table>
       </div>
+    </div>
   );
 };
 
-export default ManageBooksPage;
+export default ManageBookPage;
