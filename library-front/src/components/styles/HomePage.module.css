@@ -105,6 +105,99 @@
   }
 }
 
+
+
+/* HomePage.module.css */
+.sortPanel {
+  display: inline-flex; /* Контейнер подстраивается под содержимое */
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  /* Дополнительные настройки */
+  min-width: fit-content; /* Минимальная ширина по содержимому */
+  justify-content: space-between; /* Выравнивание элементов слева */
+}
+
+.categoryButton {
+  background: #f0f2ff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.categoryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(75, 82, 248, 0.3);
+}
+
+.exportButton {
+  background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.sortSelect {
+  background-color: #747bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin: 5px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.sortSelect:focus {
+  border-color: #4b52f8;
+  box-shadow: 0 0 0 2px rgba(75, 82, 248, 0.2);
+  outline: none;
+}
+
+.sortDirection {
+  cursor: pointer;
+  color: #4b52f8;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.sortDirection:hover {
+  transform: scale(1.1);
+  background: #f0f2ff;
+}
+
+/* Адаптивность [[7]] */
+@media (max-width: 768px) {
+  .sortPanel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .sortSelect {
+    width: 100%;
+  }
+}
+
+
+
+
+
+
+
 .productGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
