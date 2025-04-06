@@ -23,7 +23,7 @@ const Header = () => {
           {/*<Link to="/catalog" className={styles.navLink}>Каталог</Link>*/}
           {/*<Link to="/about" className={styles.navLink}>О нас</Link>*/}
            {user?.roles?.includes('Директор') && (
-          <Link to="/manage-books" className={styles.navLink}>Книги</Link>
+          <Link to="/manage-books" className={styles.navLink}>Администрирование</Link>
         )}
           
         </nav>
