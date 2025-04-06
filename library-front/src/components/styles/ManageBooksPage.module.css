@@ -1,0 +1,46 @@
+.container {
+    padding: 2rem;
+  }
+  
+  .addButton {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+  }
+  
+  .booksTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .booksTable th,
+  .booksTable td {
+    border: 1px solid #ddd;
+    padding: 0.8rem;
+    text-align: left;
+  }
+  
+  .booksTable th {
+    background-color: #f8f9fa;
+  }
+  
+  .editButton {
+    background-color: #ffc107;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
+  
+  .deleteButton {
+    background-color: #dc3545;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }

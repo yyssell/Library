@@ -22,7 +22,7 @@ const Header = () => {
         <nav className={styles.nav}>
           {/*<Link to="/catalog" className={styles.navLink}>Каталог</Link>*/}
           {/*<Link to="/about" className={styles.navLink}>О нас</Link>*/}
-          {/*<Link to="/contacts" className={styles.navLink}>Контакты</Link>*/}
+          <Link to="/manage-books" className={styles.navLink}>Книги</Link>
         </nav>
         <div>
           {user ? (

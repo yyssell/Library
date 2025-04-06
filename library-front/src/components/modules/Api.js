@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const server_ip = `http://5.181.187.191`; //process.env.SERVER_IP ||
+//const server_ip = `http://localhost`;
 const port = 8888; //process.env.SERVER_PORT ||
 
 const BASE_URL = `${server_ip}:${port}`;
@@ -68,4 +69,38 @@ export const Profile = async (token) => {
     catch (error) {
         throw error;
     }
+};
+// Создание новой книги
+export const createBook = async (bookData, token) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/books`, bookData, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || 'Ошибка создания книги';
+  }
+};
+
+// Обновление существующей книги
+export const updateBook = async (id, bookData, token) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/books/${id}`, bookData, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || 'Ошибка обновления книги';
+  }
+};
+
+// Удаление книги
+export const deleteBook = async (id, token) => {
+  try {
+    await axios.delete(`${BASE_URL}/books/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } catch (error) {
+    throw error.response?.data || 'Ошибка удаления книги';
+  }
 };

@@ -8,6 +8,7 @@ import LoginPage from "./components/pages/LoginPage.jsx";
 import PrivateRoute from "./components/modules/PrivateRoute.jsx";
 import {AuthProvider} from "./components/context/AuthContext.jsx";
 import ProfilePage from "./components/pages/ProfilePage.jsx";
+import ManageBooksPage from "./components/pages/ManageBooksPage.jsx";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route element={<PrivateRoute />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/books/:id" element={<ProductDetail />} />
+              <Route path="/manage-books" element={<ManageBooksPage />} />
             </Route>
 
             {/*<Route element={<AdminRoute />}>*/}
