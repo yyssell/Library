@@ -75,39 +75,116 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Добавление новой книги
+// Создание новой книги
 router.post('/', async (req, res) => {
-  const { name, description, unit_price, rental_price, category_id, image_url, image_path } = req.body;
-
   try {
-    // Проверяем, что все обязательные поля присутствуют
-    if (!name || !unit_price || !rental_price || !category_id) {
-      return res.status(400).json({ error: 'Недостающие обязательные поля' });
-    }
-
-    // Вставка нового продукта в таблицу Products
-    const { rows } = await pool.query(`
-      INSERT INTO Products (name, description, unit_price, rental_price, category_id, image_path)
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING product_id
-    `, [name, description, unit_price, rental_price, category_id, image_path]);
-
-    const newProductId = rows[0].product_id;
-
-    // Возвращаем информацию о созданном продукте
-    res.status(201).json({
-      message: 'Книга успешно создана',
-      product_id: newProductId,
+    const {
       name,
       description,
+      category_id,
       unit_price,
       rental_price,
-      category_id,
-      image_url
-    });
+      stock_quantity,
+      image_path
+    } = req.body;
+
+    const { rows } = await pool.query(`
+      INSERT INTO Products (
+        name,
+        description,
+        category_id,
+        unit_price,
+        rental_price,
+        stock_quantity,
+        image_path
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7
+      ) RETURNING *`,
+      [
+        name,
+        description,
+        category_id,
+        unit_price,
+        rental_price,
+        stock_quantity,
+        image_path
+      ]
+    );
+
+    res.status(201).json(rows[0]);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Ошибка создания книги');
+    res.status(500).json({ error: "Ошибка создания книги" });
   }
 });
 
+// Обновление книги
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name,
+      description,
+      category_id,
+      unit_price,
+      rental_price,
+      stock_quantity,
+      image_path
+    } = req.body;
+
+    const { rows } = await pool.query(`
+      UPDATE Products SET
+        name = $1,
+        description = $2,
+        category_id = $3,
+        unit_price = $4,
+        rental_price = $5,
+        stock_quantity = $6,
+        image_path = $7
+      WHERE product_id = $8
+      RETURNING *`,
+      [
+        name,
+        description,
+        category_id,
+        unit_price,
+        rental_price,
+        stock_quantity,
+        image_path,
+        id
+      ]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Книга не найдена" });
+    }
+
+    res.status(200).json(rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Ошибка обновления книги" });
+  }
+});
+
+// Удаление книги
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rows } = await pool.query(`
+      DELETE FROM Products
+      WHERE product_id = $1
+      RETURNING *`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Книга не найдена" });
+    }
+
+    res.status(204).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Ошибка удаления книги" });
+  }
+});
 module.exports = router;

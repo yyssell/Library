@@ -70,19 +70,22 @@ export const Profile = async (token) => {
         throw error;
     }
 };
-// Создание новой книги
+// Создание книги
 export const createBook = async (bookData, token) => {
   try {
     const response = await axios.post(`${BASE_URL}/books`, bookData, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json' // Явно указываем тип данных
+      }
     });
-    return response.data;
+    return response;
   } catch (error) {
-    throw error.response?.data || 'Ошибка создания книги';
+    throw error.response?.data || { message: 'Ошибка создания книги' };
   }
 };
 
-// Обновление существующей книги
+// Обновление книги
 export const updateBook = async (id, bookData, token) => {
   try {
     const response = await axios.put(`${BASE_URL}/books/${id}`, bookData, {
@@ -90,7 +93,7 @@ export const updateBook = async (id, bookData, token) => {
     });
     return response.data;
   } catch (error) {
-    throw error.response?.data || 'Ошибка обновления книги';
+    throw error.response?.data || { message: 'Ошибка обновления книги' };
   }
 };
 
@@ -101,6 +104,6 @@ export const deleteBook = async (id, token) => {
       headers: { Authorization: `Bearer ${token}` }
     });
   } catch (error) {
-    throw error.response?.data || 'Ошибка удаления книги';
+    throw error.response?.data || { message: 'Ошибка удаления книги' };
   }
 };
