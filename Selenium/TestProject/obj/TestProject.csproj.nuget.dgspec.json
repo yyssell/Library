@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ПиТПМ (Тестирование)\\Лаб 6 Selenium\\TestProject — ReactDB\\TestProject\\TestProject.csproj": {}
+    "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\TestProject\\TestProject.csproj": {}
   },
   "projects": {
-    "D:\\ПиТПМ (Тестирование)\\Лаб 6 Selenium\\TestProject — ReactDB\\TestProject\\TestProject.csproj": {
+    "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\TestProject\\TestProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ПиТПМ (Тестирование)\\Лаб 6 Selenium\\TestProject — ReactDB\\TestProject\\TestProject.csproj",
+        "projectUniqueName": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\TestProject\\TestProject.csproj",
         "projectName": "TestProject",
-        "projectPath": "D:\\ПиТПМ (Тестирование)\\Лаб 6 Selenium\\TestProject — ReactDB\\TestProject\\TestProject.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "D:\\ПиТПМ (Тестирование)\\Лаб 6 Selenium\\TestProject — ReactDB\\TestProject\\obj\\",
+        "projectPath": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\TestProject\\TestProject.csproj",
+        "packagesPath": "C:\\Users\\cebot\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\TestProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cebot\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -42,8 +42,9 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
-        }
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -106,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
