@@ -47,7 +47,7 @@ const CreateBookPage = ({ token }) => {
     try {
       const response = await createBook(formData, token);
       if (response.status === 201) { // Проверка статуса ответа [[2]]
-        navigate("/books");
+        navigate("/manage-books");
       }
     } catch (error) {
       setError(error?.response?.data?.message || "Ошибка создания книги"); // Обработка ошибок [[2]]
