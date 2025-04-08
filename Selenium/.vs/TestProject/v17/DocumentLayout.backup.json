@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ED7DABC4-C690-4F46-9585-F9E2DCE36AA2}|LibraryTestProject\\LibraryTestProject.csproj|c:\\users\\cebot\\desktop\\library\\selenium\\librarytestproject\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ED7DABC4-C690-4F46-9585-F9E2DCE36AA2}|LibraryTestProject\\LibraryTestProject.csproj|solutionrelative:librarytestproject\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F37B7297-0E6A-4C75-84B4-0DBB14306980}|LibraryTest\\LibraryTest.csproj|c:\\users\\cebot\\desktop\\library\\selenium\\librarytest\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F37B7297-0E6A-4C75-84B4-0DBB14306980}|LibraryTest\\LibraryTest.csproj|solutionrelative:librarytest\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,13 +20,13 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "UnitTest1.cs",
-              "DocumentMoniker": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\LibraryTestProject\\UnitTest1.cs",
-              "RelativeDocumentMoniker": "LibraryTestProject\\UnitTest1.cs",
-              "ToolTip": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\LibraryTestProject\\UnitTest1.cs",
-              "RelativeToolTip": "LibraryTestProject\\UnitTest1.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAQwDUAAAA3AAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\LibraryTest\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "LibraryTest\\UnitTest1.cs",
+              "ToolTip": "C:\\Users\\cebot\\Desktop\\Library\\Selenium\\LibraryTest\\UnitTest1.cs",
+              "RelativeToolTip": "LibraryTest\\UnitTest1.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAADwvxcAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T22:57:21.926Z",
+              "WhenOpened": "2025-04-08T19:19:29.505Z",
               "EditorCaption": ""
             }
           ]
